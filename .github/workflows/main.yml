@@ -1,0 +1,49 @@
+name: Deploy
+on:
+  workflow_dispatch:
+    inputs:
+      platform:
+        description: 'platform'
+        required: true
+        default: 'macos-latest'
+        type: choice
+        options:
+          - 'windows-latest'
+          - 'macos-latest'
+          - 'ubuntu-20.04'
+
+jobs:
+  build:
+    name: ${{ inputs.platform }}
+    runs-on: ${{ inputs.platform }}
+    strategy:
+      fail-fast: false
+
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: 18.x
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build for Mac
+        if: inputs.platform == 'macos-latest'
+        run: npm run build:mac
+
+      - name: Build for Windows
+        if: inputs.platform == 'windows-latest'
+        run: npm run build:win
+      
+      - name: Build for Linux
+        if: inputs.platform == 'ubuntu-20.04'
+        run: npm run build:linux
+
+      - name: Upload archive
+        uses: actions/upload-artifact@v3
+        with:
+          name: output-${{ inputs.platform }}.zip
+          path: ${{ inputs.platform == 'windows-latest' && 'dist/WinSetup.exe' || 'dist/*' }} 
+          retention-days: 3
+

@@ -2,6 +2,11 @@
   "name": "starter-electron",
   "version": "0.1.0",
   "description": "A minimal Electron + Vue application",
+  "author": {
+    "name": "laihaojie",
+    "url": "https://github.com/laihaojie"
+  },
+  "repository": "https://github.com/laihaojie/starter-electron",
   "main": "build/main/main.js",
   "scripts": {
     "dev": "node scripts/dev-server.js",
@@ -12,13 +17,12 @@
     "lint": "eslint .",
     "lint:fix": "eslint . --fix"
   },
-  "repository": "https://github.com/laihaojie/starter-electron",
-  "author": {
-    "name": "laihaojie",
-    "url": "https://github.com/laihaojie"
+  "dependencies": {
+    "vue": "^3.2.47"
   },
   "devDependencies": {
     "@djie/eslint-config": "^2.1.4",
+    "@types/node": "^20.10.4",
     "@vitejs/plugin-vue": "^4.0.0",
     "chalk": "^4.1.2",
     "chokidar": "^3.5.3",
@@ -27,8 +31,5 @@
     "eslint": "^8.55.0",
     "typescript": "^4.8.4",
     "vite": "^4.1.1"
-  },
-  "dependencies": {
-    "vue": "^3.2.47"
   }
 }

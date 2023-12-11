@@ -3,14 +3,14 @@ on:
   workflow_dispatch:
     inputs:
       platform:
-        description: 'platform'
+        description: platform
         required: true
-        default: 'macos-latest'
+        default: macos-latest
         type: choice
         options:
-          - 'windows-latest'
-          - 'macos-latest'
-          - 'ubuntu-20.04'
+          - windows-latest
+          - macos-latest
+          - ubuntu-20.04
 
 jobs:
   build:
@@ -35,7 +35,7 @@ jobs:
       - name: Build for Windows
         if: inputs.platform == 'windows-latest'
         run: npm run build:win
-      
+
       - name: Build for Linux
         if: inputs.platform == 'ubuntu-20.04'
         run: npm run build:linux
@@ -44,6 +44,5 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: output-${{ inputs.platform }}.zip
-          path: ${{ inputs.platform == 'windows-latest' && 'dist/WinSetup.exe' || 'dist/*' }} 
+          path: ${{ inputs.platform == 'windows-latest' && 'dist/WinSetup.exe' || 'dist/*' }}
           retention-days: 3
-

@@ -1,7 +1,7 @@
-<div align="center"> 
+<div align="center">
 
 # Electron Vue Template
-  
+
 <img width="794" alt="image" src="https://user-images.githubusercontent.com/32544586/222748627-ee10c9a6-70d2-4e21-b23f-001dd8ec7238.png">
 
 A simple starter template for a **Vue3** + **Electron** TypeScript based application, including **ViteJS** and **Electron Builder**.
@@ -9,7 +9,7 @@ A simple starter template for a **Vue3** + **Electron** TypeScript based applica
 
 ## About
 
-This template utilizes [ViteJS](https://vitejs.dev) for building and serving your (Vue powered) front-end process, it provides Hot Reloads (HMR) to make development fast and easy ⚡ 
+This template utilizes [ViteJS](https://vitejs.dev) for building and serving your (Vue powered) front-end process, it provides Hot Reloads (HMR) to make development fast and easy ⚡
 
 Building the Electron (main) process is done with [Electron Builder](https://www.electron.build/), which makes your application easily distributable and supports cross-platform compilation 😎
 
@@ -20,7 +20,6 @@ Click the green **Use this template** button on top of the repository, and clone
 **Or..**
 
 Clone this repository: `git clone git@github.com:Deluze/electron-vue-template.git`
-
 
 ### Install dependencies ⏬
 
@@ -66,10 +65,10 @@ If you have any files that you want to copy over to the app directory after inst
 ```ts
 /* Assumes src/main/static/myFile.txt exists */
 
-import {app} from 'electron';
-import {join} from 'path';
-import {readFileSync} from 'fs';
+import { join } from 'node:path'
+import { readFileSync } from 'node:fs'
+import { app } from 'electron'
 
-const path = join(app.getAppPath(), 'static', 'myFile.txt');
-const buffer = readFileSync(path);
+const path = join(app.getAppPath(), 'static', 'myFile.txt')
+const buffer = readFileSync(path)
 ```

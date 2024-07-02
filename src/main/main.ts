@@ -42,7 +42,6 @@ function createWindow() {
   })
 
   let count = 0
-  let timer: NodeJS.Timeout | null = null
 
   const menuTemp = [
     {
@@ -56,15 +55,10 @@ function createWindow() {
       label: `版本 ${packageJson.version}`,
       click: () => {
         count++
-
-        if (count === 5) {
-          timer = setTimeout(() => {
-            // 打开开发者工具
-            mainWindow.webContents.openDevTools()
-          }, 3000)
-        }
-        else {
-          clearTimeout(timer as NodeJS.Timeout)
+        if (count % 10 === 0) {
+          console.log('打开开发者工具')
+          mainWindow.webContents.openDevTools()
+          count = 0
         }
       },
     },
@@ -83,7 +77,7 @@ app.whenReady().then(() => {
     callback({
       responseHeaders: {
         ...details.responseHeaders,
-        'Content-Security-Policy': ['script-src \'self\''],
+        // 'Content-Security-Policy': ['script-src \'self\''],
       },
     })
   })

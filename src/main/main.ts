@@ -1,6 +1,11 @@
 import { join } from 'node:path'
 import process from 'node:process'
-import { BrowserWindow, app, ipcMain, session } from 'electron'
+import fs from 'node:fs'
+import { BrowserWindow, Menu, app, ipcMain, session } from 'electron'
+import electronLocalshortcut from 'electron-localshortcut'
+
+const packageJson = JSON.parse(fs.readFileSync(join(__dirname, '../../package.json'), 'utf-8'))
+let loadURL = ''
 
 function createWindow() {
   const mainWindow = new BrowserWindow({
@@ -13,14 +18,63 @@ function createWindow() {
     },
   })
 
+  mainWindow.maximize()
+
   if (process.env.NODE_ENV === 'development') {
     const rendererPort = process.argv[2]
-    mainWindow.loadURL(`http://localhost:${rendererPort}`)
+    loadURL = `http://localhost:${rendererPort}`
+    mainWindow.loadURL(loadURL)
   }
   else {
     mainWindow.loadFile(join(app.getAppPath(), 'renderer', 'index.html'))
   }
+
+  // F5刷新页面
+  mainWindow.webContents.on('before-input-event', (event, input) => {
+    if (input.key === 'F5' && !input.alt && !input.control && !input.meta && !input.shift) {
+      mainWindow.reload()
+    }
+  })
+
+  // 解决Mac下无法复制粘贴问题
+  electronLocalshortcut.register(mainWindow, 'CmdOrCtrl+C', () => {
+    mainWindow.webContents.copy()
+  })
+
+  let count = 0
+  let timer: NodeJS.Timeout | null = null
+
+  const menuTemp = [
+    {
+      label: '刷新-F5',
+      click: () => {
+        count = 0
+        mainWindow.reload()
+      },
+    },
+    {
+      label: `版本 ${packageJson.version}`,
+      click: () => {
+        count++
+
+        if (count === 5) {
+          timer = setTimeout(() => {
+            // 打开开发者工具
+            mainWindow.webContents.openDevTools()
+          }, 3000)
+        }
+        else {
+          clearTimeout(timer as NodeJS.Timeout)
+        }
+      },
+    },
+  ]
+
+  Menu.setApplicationMenu(Menu.buildFromTemplate(menuTemp))
 }
+
+app.commandLine.appendSwitch('allow-insecure-localhost', 'true')
+app.commandLine.appendSwitch('unsafely-treat-insecure-origin-as-secure', loadURL)
 
 app.whenReady().then(() => {
   createWindow()

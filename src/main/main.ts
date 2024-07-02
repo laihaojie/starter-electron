@@ -67,6 +67,10 @@ function createWindow() {
   Menu.setApplicationMenu(Menu.buildFromTemplate(menuTemp))
 }
 
+// 允许localhost发送请求
+app.commandLine.appendSwitch('disable-features', 'BlockInsecurePrivateNetworkRequests');
+
+// 开放需要https的api授权
 app.commandLine.appendSwitch('allow-insecure-localhost', 'true')
 app.commandLine.appendSwitch('unsafely-treat-insecure-origin-as-secure', loadURL)
 

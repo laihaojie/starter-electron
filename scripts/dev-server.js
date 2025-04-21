@@ -4,9 +4,9 @@
   process.env.NODE_ENV = 'development'
 
   const ChildProcess = require('node:child_process')
-  const Path = require('node:path')
   const FileSystem = require('node:fs')
   const { EOL } = require('node:os')
+  const Path = require('node:path')
   const Vite = await import('vite')
   const Chalk = require('chalk')
   const Chokidar = require('chokidar')
@@ -33,7 +33,7 @@
     }
 
     try {
-      await compileTs(Path.join(__dirname, '..', 'src', 'main'))
+      await compileTs(Path.join(__dirname, '..', 'main'))
     }
     catch {
       console.log(Chalk.redBright('Could not start Electron because of the above typescript error(s).'))
@@ -76,6 +76,7 @@
 
   function copyStaticFiles() {
     copy('static')
+    copy('lib')
   }
 
   /*
@@ -84,7 +85,7 @@
   */
   function copy(path) {
     FileSystem.cpSync(
-      Path.join(__dirname, '..', 'src', 'main', path),
+      Path.join(__dirname, '..', 'main', path),
       Path.join(__dirname, '..', 'build', 'main', path),
       { recursive: true },
     )
@@ -106,7 +107,7 @@
     copyStaticFiles()
     startElectron()
 
-    const path = Path.join(__dirname, '..', 'src', 'main')
+    const path = Path.join(__dirname, '..', 'main')
     Chokidar.watch(path, {
       cwd: path,
     }).on('change', (path) => {
@@ -120,5 +121,4 @@
   }
 
   start()
-
 })()

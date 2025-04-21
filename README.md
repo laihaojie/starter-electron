@@ -65,8 +65,8 @@ If you have any files that you want to copy over to the app directory after inst
 ```ts
 /* Assumes src/main/static/myFile.txt exists */
 
-import { join } from 'node:path'
 import { readFileSync } from 'node:fs'
+import { join } from 'node:path'
 import { app } from 'electron'
 
 const path = join(app.getAppPath(), 'static', 'myFile.txt')

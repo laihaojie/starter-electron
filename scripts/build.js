@@ -1,6 +1,6 @@
 (async function () {
-  const Path = require('node:path')
   const FileSystem = require('node:fs')
+  const Path = require('node:path')
   const Chalk = require('chalk')
   const Vite = await import('vite')
   const compileTs = require('./private/tsc')
@@ -14,7 +14,7 @@
   }
 
   function buildMain() {
-    const mainPath = Path.join(__dirname, '..', 'src', 'main')
+    const mainPath = Path.join(__dirname, '..', 'main')
     return compileTs(mainPath)
   }
 
@@ -31,5 +31,4 @@
   ]).then(() => {
     console.log(Chalk.greenBright('Renderer & main successfully transpiled! (ready to be built with electron-builder)'))
   })
-
 })()

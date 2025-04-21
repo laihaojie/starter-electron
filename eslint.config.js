@@ -4,4 +4,11 @@ module.exports = jie({
   rules: {
     'no-console': 'off',
   },
+  ignores: [
+    'packages',
+  ],
+}, {
+  ignores: [
+    'renderer/public',
+  ],
 })

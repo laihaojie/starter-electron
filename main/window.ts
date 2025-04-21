@@ -33,6 +33,7 @@ export function createWindow() {
   const options = {
     width: 800,
     height: 600,
+    icon: join(__dirname, '../../static', 'logo.png'),
     webPreferences: {
       preload: join(__dirname, 'preload.js'),
       nodeIntegration: false,

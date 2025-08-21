@@ -18,6 +18,9 @@ async function downloadFile(url, outputPath) {
     })
 }
 const outDit = path.join(process.cwd(), 'main', 'lib')
+if (!fs.existsSync(outDit)) {
+  fs.mkdirSync(outDit, { recursive: true })
+}
 
 const need = [
   // {
